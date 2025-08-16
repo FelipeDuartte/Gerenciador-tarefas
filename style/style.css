@@ -1,0 +1,10 @@
+input[type="checkbox"] {
+  transform: scale(1.8);
+}
+
+.bg-success {
+  background-color: #198754 !important;
+}
+.task-name {
+  transition: color 0.2s, text-decoration 0.2s;
+}
