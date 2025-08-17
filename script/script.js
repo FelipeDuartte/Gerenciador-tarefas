@@ -89,5 +89,5 @@ window.onload = function () {
 };
 //function para ver a descricao da task
 function seeDataDescription(id) {
-  window.location.href = `../details.html?id=${id}`;
+  window.location.href = `details.html?id=${id}`;
 }
