@@ -1,9 +1,10 @@
+//variaveis globais
 const inputTask = document.getElementById("taskInput");
 const description = document.getElementById("decriptionInput");
 const tasks = document.getElementById("task-list");
 const form = document.getElementById("task-form");
 let contador = 0;
-
+// function ao clicar no botao adicionar
 function addTask() {
   let taskValue = inputTask.value.trim();
   let descriptionValue = description.value.trim();
@@ -23,8 +24,11 @@ function addTask() {
   tasksArr.push(taskObj);
   localStorage.setItem("tasksArr", JSON.stringify(tasksArr));
   renderTasks();
+  inputTask.value = "";
+  description.value = "";
+  inputTask.focus();
 }
-
+//function ao mudar o checkbox
 function changeCompleted(checkbox) {
   const li = checkbox.closest("li");
   const label = li.querySelector(".task-name");
@@ -47,7 +51,7 @@ function changeCompleted(checkbox) {
     label.style.color = "white";
   }
 }
-
+//function para renderizar as tasks
 function renderTasks() {
   let tasksArr = JSON.parse(localStorage.getItem("tasksArr") || "[]");
   tasks.innerHTML = "";
@@ -62,7 +66,7 @@ function renderTasks() {
       <li class="task-item ${liClass} rounded p-2 mb-2 d-flex align-items-center">
         <input id="${taskObj.id}" class="d-flex align-items-center me-3" type="checkbox" onchange="changeCompleted(this)" ${checked}>
         <label for="${taskObj.id}" class="task-name fs-5 fw-bold d-flex align-items-center col" style="${labelStyle}">${taskObj.name}</label>
-        <button onclick="seeDataDescription()" class="btn btn-dark ms-2"><i class="bi bi-arrow-right-square"></i></button>
+        <button onclick="seeDataDescription(${taskObj.id})" class="btn btn-dark ms-2"><i class="bi bi-arrow-right-square"></i></button>
         <button onclick="removeTask(${taskObj.id})" class="btn btn-danger ms-2"><i class="bi bi-calendar-x"></i></button>
       </li>`;
     tasks.innerHTML += taskItem;
@@ -72,7 +76,7 @@ function renderTasks() {
     contador = Math.max(...tasksArr.map((t) => t.id));
   }
 }
-
+//function para remover a task
 function removeTask(id) {
   let tasksArr = JSON.parse(localStorage.getItem("tasksArr") || "[]");
   tasksArr = tasksArr.filter((t) => t.id !== id);
@@ -83,9 +87,7 @@ function removeTask(id) {
 window.onload = function () {
   renderTasks();
 };
-
-function seeDataDescription() {
-  window.location.href = `../details.html?desc=${encodeURIComponent(
-    description.value
-  )}`;
+//function para ver a descricao da task
+function seeDataDescription(id) {
+  window.location.href = `../details.html?id=${id}`;
 }
